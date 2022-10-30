@@ -22,10 +22,8 @@
 
 
                 @if ((!auth()->user()->hasRole('User') &&
+                    auth()->user()->can('view_lessons')))
 
-                    auth()->user()->can('view_lessons')
-
-                    <h3 class="menu-title">@lang('manage courses')</h3><!-- /.menu-title -->
 
 
                     @can('view_lessons')
@@ -54,13 +52,20 @@
                         </li>
                     @endcan
 
-
+                    @can('add_role')
+                        <li class="{{ is_active('roles.*') }}">
+                            <a href="{{ route('roles.index') }}"> <i class="menu-icon fa fa-lock"></i>@lang('roles.roles')
+                            </a>
+                        </li>
+                    @endcan
                 @endif
 
                 @if (auth()->user()->can('view_students') ||
-                    
+
                     auth()->user()->can('view_users'))
                     <h3 class="menu-title">@lang('Manage Activities')</h3><!-- /.menu-title -->
+
+
                     @can('view_news')
                         <li class="{{ is_active('newses.*') }}">
                             <a href="{{ route('newses.index') }}"> <i
@@ -78,9 +83,7 @@
                     <li class="{{ is_active('home') }}">
                         <a href="{{ route('home') }}"> <i class="menu-icon fa fa-home"></i>@lang('Home') </a>
                     </li>
-                    <li class="{{ is_active('home') }}">
-                        <a href="{{ route('home') }}"> <i class="menu-icon fa fa-book"></i>@lang('Courses') </a>
-                    </li>
+                    
                     <li class="{{ is_active('home') }}">
                         <a href="{{ route('home') }}"> <i class="menu-icon fa fa-envelope"></i>@lang('Messages')
                         </a>

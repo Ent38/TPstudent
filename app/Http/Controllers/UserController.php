@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use constPath;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
-use josue\Flash\Facades\LaravelFlash;
+use App\Models\Student;
+use Jambasangsang\Flash\Facades\LaravelFlash;
 
 class UserController extends Controller
 {
@@ -47,6 +49,7 @@ class UserController extends Controller
         $user->save();
         LaravelFlash::withSuccess('User Created Successfully');
         return match ($request->role) {
+
             'Admin' => redirect()->route('users.index'),
             'default' => redirect()->route('users.index'),
         };
@@ -61,7 +64,8 @@ class UserController extends Controller
     public function show($slug)
     {
         Gate::authorize('view_users');
-        return view('josue.backend.students.show');
+        $student = Student::all();
+        return view('josue.backend.students.show',compact('student'));
     }
 
     /**
@@ -91,6 +95,7 @@ class UserController extends Controller
         $user->save();
         LaravelFlash::withSuccess('User Updated Successfully');
         return match ($request->role) {
+
             'Admin' => redirect()->route('users.index'),
             'default' => redirect()->route('users.index'),
         };

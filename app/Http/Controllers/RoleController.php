@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{Role, Permission};
 use App\Http\Requests\Role\StoreRoleRequest;
 use Illuminate\Support\Facades\Gate;
-use josue\Flash\Facades\LaravelFlash;
+use jambasangsang\Flash\Facades\LaravelFlash;
 
 class RoleController extends Controller
 {

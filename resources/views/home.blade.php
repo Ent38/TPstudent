@@ -1,6 +1,5 @@
 @extends('layouts.backend.master')
 
-
 @section('breadcrumbs')
     <div class="breadcrumbs">
         <div class="col-sm-4">

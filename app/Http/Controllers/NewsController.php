@@ -6,7 +6,7 @@ use App\Models\News;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
-use josue\Flash\Facades\LaravelFlash;
+use jambasangsang\Flash\Facades\LaravelFlash;
 
 class NewsController extends Controller
 {

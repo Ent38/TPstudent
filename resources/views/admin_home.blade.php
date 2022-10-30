@@ -27,8 +27,6 @@
     </div>
 @endcan
 
-<!--/.col-->
-
 
 @can('view_admin')
     <div class="col-sm-6 col-lg-3">
@@ -67,4 +65,41 @@
 </div>
 <!--/.col-->
 
+
+<div class="col-lg-3 col-md-6">
+    <div class="social-box linkedin">
+        <i class="fa fa-registered"></i>
+        <ul>
+            <li>
+                <span class="count">40</span> +
+                <span>contacts</span>
+            </li>
+            <li>
+                <span class="count">250</span>
+                <span>feeds</span>
+            </li>
+        </ul>
+    </div>
+    <!--/social-box-->
+</div>
+<!--/.col-->
+
+
+<div class="col-lg-3 col-md-6">
+    <div class="social-box google-plus">
+        <i class="fa fa-google-plus"></i>
+        <ul>
+            <li>
+                <span class="count">94</span> k
+                <span>followers</span>
+            </li>
+            <li>
+                <span class="count">92</span>
+                <span>circles</span>
+            </li>
+        </ul>
+    </div>
+    <!--/social-box-->
+</div>
+<!--/.col-->
 

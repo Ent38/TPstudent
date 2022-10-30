@@ -14,7 +14,7 @@ class StudentController extends Controller
     public function index()
     {
         Gate::authorize('view_users');
-        return view('josue.backend.students.index', ['students' => User::Student()->get()]);
+        return view('jambasangsang.backend.students.index', ['students' => User::Student()->get()]);
     }
 
 

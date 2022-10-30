@@ -21,7 +21,6 @@ class HomeController extends Controller
                 'numberOfStudents' => User::Student()->count(),
                 'numberOfActiveStudents' => User::Student()->where('status', 'Enabled')->count(),
                 'numberOfInactiveStudents' => User::Student()->where('status', 'Disabled')->count(),
-                
 
                 'news' => News::where('status', 'Enabled')->get(['id', 'title', 'created_at']),
 
