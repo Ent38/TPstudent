@@ -1,2 +1,3 @@
 <?php
-return ["administration" => "Admin"];
+
+return ['administration' => 'Admin'];

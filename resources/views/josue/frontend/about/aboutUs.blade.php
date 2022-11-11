@@ -95,7 +95,7 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="singel-counter text-center mt-40">
                         <span><span class="counter">41,000</span>+</span>
-                        <p>Courses Uploaded</p>
+                        <p>Books Uploaded</p>
                     </div> <!-- singel counter -->
                 </div>
                 <div class="col-lg-3 col-sm-6">

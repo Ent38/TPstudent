@@ -2,6 +2,6 @@
 
 return [
     'id' => 'ID',
-    'courses' => 'Lessons',
+    'Books' => 'Lessons',
     'title' => 'Title',
 ];

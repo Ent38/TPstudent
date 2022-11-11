@@ -8,16 +8,14 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Message extends Model
 {
-
     protected $fillable = ['message', 'user_id'];
 
- 
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function messageable() : MorphTo
+    public function messageable(): MorphTo
     {
         return $this->morphTo();
     }

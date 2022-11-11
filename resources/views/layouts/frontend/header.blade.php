@@ -9,7 +9,7 @@
                             <div class="logo">
                             </div>
                                 <a href="/">
-                                    <img src=" " width="80" alt="Logo">
+                                    <img src="{{ asset('josue/frontend/images/all-icon/map.png') }} " width="80" alt="Logo">
                                 </a>
                             </div>
 

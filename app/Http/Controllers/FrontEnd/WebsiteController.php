@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
-use App\Models\{ News, Slider, User};
-use Illuminate\Http\Request;
+use App\Models\News;
+use App\Models\Slider;
 
 class WebsiteController extends Controller
 {
-
     public function website()
     {
-
         // dd(News::inRandomOrder()->get()->take(4));
 
         return view(

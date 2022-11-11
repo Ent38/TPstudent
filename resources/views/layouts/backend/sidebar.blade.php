@@ -22,13 +22,21 @@
 
 
                 @if ((!auth()->user()->hasRole('User') &&
-                    auth()->user()->can('view_lessons')))
+                    auth()->user()->can('view_Books')))
+                    @can('view_books')
+                        <li class="{{ is_active('books.*') }}">
+                            <a href="{{ route('books.index') }}"> <i class="menu-icon fa fa-table"></i>@lang('Books')
+                            </a>
+                        </li>
+                    @endcan
 
+                @endif
+                @if ((!auth()->user()->hasRole('User') &&
+                    auth()->user()->can('view_categories')))
 
-
-                    @can('view_lessons')
-                        <li class="{{ is_active('lessons.*') }}">
-                            <a href="{{ route('lessons.index') }}"> <i class="menu-icon fa fa-table"></i>@lang('Lessons')
+                    @can('view_categories')
+                        <li class="{{ is_active('categories.*') }}">
+                            <a href="{{ route('categories.index') }}"> <i class="menu-icon fa fa-table"></i>@lang('categories')
                             </a>
                         </li>
                     @endcan
@@ -83,7 +91,7 @@
                     <li class="{{ is_active('home') }}">
                         <a href="{{ route('home') }}"> <i class="menu-icon fa fa-home"></i>@lang('Home') </a>
                     </li>
-                    
+
                     <li class="{{ is_active('home') }}">
                         <a href="{{ route('home') }}"> <i class="menu-icon fa fa-envelope"></i>@lang('Messages')
                         </a>

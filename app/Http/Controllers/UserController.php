@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use constPath;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Lesson;
-use Illuminate\Http\Request;
+use constPath;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\StoreUserRequest;
-use App\Models\Student;
-use Jambasangsang\Flash\Facades\LaravelFlash;
 
 class UserController extends Controller
 {
@@ -47,11 +44,13 @@ class UserController extends Controller
         $user->assignRole($request->role);
         $user->image = uploadOrUpdateFile($request, $user->image, constPath::UserImage);
         $user->save();
-        LaravelFlash::withSuccess('User Created Successfully');
-        return match ($request->role) {
+        $status = 'A new user was added successfully.';
 
-            'Admin' => redirect()->route('users.index'),
-            'default' => redirect()->route('users.index'),
+        return match ($request->role) {
+            'Admin' => redirect()->route('users.index')->with([
+                'status' => $status, ]),
+            'default' => redirect()->route('users.index')->with([
+                'status' => $status, ]),
         };
     }
 
@@ -64,8 +63,7 @@ class UserController extends Controller
     public function show($slug)
     {
         Gate::authorize('view_users');
-        $student = Student::all();
-        return view('josue.backend.students.show',compact('student'));
+        return view('josue.backend.students.show', ['student' => User::with('books', 'books.book')->whereSlug($slug)->first()]);
     }
 
     /**
@@ -76,8 +74,12 @@ class UserController extends Controller
      */
     public function edit($slug)
     {
-        return view('josue.backend.users.edit', ['roles' => Role::where('name', '!=', 'User')->get('name', 'id'), 'user' => User::whereSlug($slug)->firstOrFail()]);
+        $roles = Role::where('name', '!=', 'User')->get('name', 'id');
+        $user=User::whereSlug($slug)->firstOrFail();
+
+         return view('josue.backend.users.edit',compact('roles','user', 'slug'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -93,11 +95,13 @@ class UserController extends Controller
         $user->assignRole($request->role);
         $user->image = uploadOrUpdateFile($request, $user->image, constPath::UserImage);
         $user->save();
-        LaravelFlash::withSuccess('User Updated Successfully');
-        return match ($request->role) {
+        $status = 'User Updated Successfully';
 
-            'Admin' => redirect()->route('users.index'),
-            'default' => redirect()->route('users.index'),
+        return match ($request->role) {
+            'Admin' => redirect()->route('users.index')->with([
+                'status' => $status, ]),
+            'default' => redirect()->route('users.index')->with([
+                'status' => $status, ]),
         };
     }
 
@@ -110,5 +114,14 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+        $users = User::get();
+        $user = User::FindOrFail($id);
+        $user->delete();
+
+        $status = 'The user was deleted successfully.';
+
+        return redirect()->route('users.index', ['users' => $users])->with([
+            'status' => $status,
+        ]);
     }
 }

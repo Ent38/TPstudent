@@ -43,7 +43,7 @@
                                             <a href="{{ route('newses.edit', [$news->slug]) }}"
                                                 class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
                                             <form id="deletes-form"
-                                                action="{{ route('newses.destroy', $news->slug) }}" method="POST">
+                                                action="{{ route('newses.destroy', $news->id) }}" method="POST">
                                                 @csrf
                                                 @method('delete')
                                                 <a class="btn btn-sm btn-danger" href="#"

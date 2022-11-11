@@ -2,25 +2,16 @@
 
 namespace App\Http\Livewire;
 
-
-use Livewire\Component;
-
-use Jenssegers\Agent\Agent;
-use Illuminate\Support\Facades\Auth;
-
 use App\Models\AddToCart;
-
-
+use Illuminate\Support\Facades\Auth;
+use Jenssegers\Agent\Agent;
+use Livewire\Component;
 
 class AddToCartCounter extends Component
 {
-
     public $cardCount = 0;
 
-
     protected $listeners = ['updateAddToCartCount' => 'getAddToCartProductCount'];
-
-
 
     public function getAddToCartProductCount()
     {
@@ -32,7 +23,6 @@ class AddToCartCounter extends Component
             ->where('status', '!=', \constPayPalStatus::SUCCESS)
             ->count();
     }
-
 
     public function render()
     {

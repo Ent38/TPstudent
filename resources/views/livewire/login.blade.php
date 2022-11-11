@@ -34,7 +34,7 @@
                                     <button type="submit" class="btn btn-bd-download main-btn">Log in</button>
                                 </div>
                                 <div class="form-group">
-                                    <a href="#" class="forgot-password">Forgot password? {{ $course_id }}</a>
+                                    <a href="#" class="forgot-password">Forgot password? {{ $book_id }}</a>
                                 </div>
                             </form>
                         </div>

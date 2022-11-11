@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Slider;
 use App\Http\Requests\StoreSliderRequest;
 use App\Http\Requests\UpdateSliderRequest;
+use App\Models\Slider;
 
 class SliderController extends Controller
 {

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreLessonRequest;
+use App\Models\Book;
 use App\Models\Lesson;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use jambasangsang\Flash\Facades\LaravelFlash;
 
 class LessonController extends Controller
@@ -39,9 +40,10 @@ class LessonController extends Controller
     public function store(StoreLessonRequest $request)
     {
         $lesson = Lesson::create($request->validated());
-        $lesson->image  = uploadOrUpdateFile($request, $lesson->image, \constPath::LessonImage);
+        $lesson->image = uploadOrUpdateFile($request, $lesson->image, \constPath::LessonImage);
         $lesson->save();
         LaravelFlash::withSuccess('Lesson Created Successfully');
+
         return redirect()->route('lesson.show', [$request->slug]);
     }
 
@@ -53,7 +55,11 @@ class LessonController extends Controller
      */
     public function show($slug)
     {
-        return view('josue.backend.lessons.show',);
+        Gate::authorize('view_news');
+        $book = Book::whereSlug($slug)->firstOrFail();
+        $book->update(['is_read' => 'yes']);
+
+        return view('josue.frontend.home.publication', ['book' => $book]);
     }
 
     /**

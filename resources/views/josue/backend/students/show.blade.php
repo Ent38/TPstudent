@@ -84,11 +84,6 @@
                 </footer>
             </section>
         </div>
-        <div class="col-md-8">
-            <div class="card">
-                {{-- <img class="card-img-top" src="{{ $student->image() }}" alt="{{ $student->name }}"> --}}
-                
-            </div>
-        </div>
+        
     </div>
 @endsection

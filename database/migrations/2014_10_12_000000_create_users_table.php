@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('designation')->nullable();
             $table->string('media_token')->unique()->nullable();
             $table->string('slug')->nullable()->unique();
-            $table->enum('status', ['enabled', 'disabled','blocked'])->default('enabled');
+            $table->enum('status', ['enabled', 'disabled', 'blocked'])->default('enabled');
             $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();

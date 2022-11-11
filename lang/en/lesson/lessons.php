@@ -3,5 +3,5 @@
 return [
     'lessons' => 'Lessons',
     'lesson' => 'Lessons',
-    'not_have' => 'Not have lessons'
+    'not_have' => 'Not have lessons',
 ];

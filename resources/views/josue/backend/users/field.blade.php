@@ -34,7 +34,7 @@
                         <!-- Credit Card -->
                         <div id="pay-invoice">
                             <div class="card-body">
-                                <form action="{{ route('users.update', [$user]) }}" method="post" novalidate="novalidate"
+                                <form action="{{ route('users.update',$user->slug) }}" method="post" novalidate="novalidate"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
@@ -43,9 +43,7 @@
                                                 <label for="role" class="control-label mb-1">@lang('Role')</label>
                                                 <select name="role" id="role" class="form-control">
                                                     <option value="">@lang('Select Role')</option>
-                                                    @foreach ($roles as $role)
-                                                        <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                                    @endforeach
+
                                                 </select>
                                             </div>
                                             @error('role')

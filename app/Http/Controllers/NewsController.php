@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\News;
-use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
-use jambasangsang\Flash\Facades\LaravelFlash;
+use App\Models\News;
+use Illuminate\Support\Facades\Gate;
+
 
 class NewsController extends Controller
 {
     public function index()
     {
         Gate::authorize('view_news');
+
         return view(
             'josue.backend.news.index',
             [
-                'newses' => News::get()
+                'newses' => News::get(),
             ]
         );
     }
 
-
     public function create()
     {
         Gate::authorize('add_news');
+
         return view('josue.backend.news.create');
     }
 
@@ -33,62 +34,64 @@ class NewsController extends Controller
         Gate::authorize('add_news');
 
         $news = News::create($request->validated());
-        $news->image  = uploadOrUpdateFile($request, $news->image, \constPath::NewsImage);
+        $news->image = uploadOrUpdateFile($request, $news->image, \constPath::NewsImage);
         $news->save();
-        LaravelFlash::withSuccess('News Created Successfully');
-        return redirect()->route('newses.index');
-    }
+        $status = 'News Created Successfully';
 
+        return redirect()->route('newses.index')->with([
+            'status' => $status, ]);
+    }
 
     public function show($slug)
     {
         Gate::authorize('view_news');
         $news = News::whereSlug($slug)->firstOrFail();
         $news->update(['is_read' => 'yes']);
+
         return view('josue.backend.news.show', ['news' => $news]);
     }
-
 
     public function edit($slug)
     {
         Gate::authorize('edit_news');
 
         $news = News::whereSlug($slug)->firstOrFail();
+
         return view('josue.backend.news.edit', compact('news'));
     }
 
-
     public function update(UpdateNewsRequest $request, $slug)
     {
-        Gate::authorize('edit_news');
-
         $news = News::whereSlug($slug)->firstOrFail();
 
         $news->update($request->validated());
-        $news->image  = uploadOrUpdateFile($request, $news->image, \constPath::NewsImage);
+        $news->image = uploadOrUpdateFile($request, $news->image, \constPath::NewsImage);
         $news->save();
-        LaravelFlash::withSuccess('News Updated Successfully');
-        return redirect()->route('newses.index');
+        $status='News Updated Successfully';
+
+        return redirect()->route('newses.index')->with([
+            'status' => $status, ]);
     }
 
-
-    public function destroy($slug)
+    public function destroy($id)
     {
         Gate::authorize('delete_news');
 
-        $news = News::whereSlug($slug)->firstOrFail();
-
-        dd($news);
-        removeFile($news->image, \constPath::NewsImage);
+        $newses = News::all();
+        $news = News::FindOrFail($id);
         $news->delete();
-        LaravelFlash::withSuccess('News Deleted Successfully');
-        return redirect()->route('newses.index');
+        $status = 'The news was deleted successfully.';
+
+        return redirect()->route('newses.index', ['newses' => $newses])->with([
+            'status' => $status,
+        ]);
     }
 
     public function single($slug)
     {
         $news = News::whereSlug($slug)->firstOrFail();
         $news->update(['is_read' => 'yes']);
+
         return view('josue.frontend.news.single', ['news' => $news]);
     }
 }

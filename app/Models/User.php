@@ -3,21 +3,17 @@
 namespace App\Models;
 
 use App\Traits\Slugable;
-use Illuminate\Support\Str;
+use Creativeorange\Gravatar\Facades\Gravatar;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasPermissions;
-use Creativeorange\Gravatar\Facades\Gravatar;
-use Google\Service\Classroom\Resource\CoursesStudents;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User
- * @package App
  *
  * @property string $name
  * @property string media_token
@@ -35,7 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'status', 'image', 'code', 'slug'
+        'name', 'email', 'password', 'username', 'status', 'image', 'code', 'slug',
     ];
 
     /**
@@ -56,6 +52,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function books(): HasMany
+    {
+        return $this->hasMany(BookUser::class);
+    }
 
     public function messages(): HasMany
     {
@@ -67,14 +67,12 @@ class User extends Authenticatable
         return Gravatar::get($this->attributes['email']);
     }
 
-
     public function assignRoles()
     {
         foreach ($this->getRoleNames() as $role) {
             return $role;
         }
     }
-
 
     public function scopeStudent()
     {
@@ -85,8 +83,4 @@ class User extends Authenticatable
     {
         return User::Role('Admin');
     }
-
-
-
-
 }

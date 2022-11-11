@@ -1,7 +1,7 @@
 <div class="search-box">
     <div class="serach-form">
         <div class="closebtn">
-            <span></span>
+            <span></span> 
             <span></span>
         </div>
         <form action="#">

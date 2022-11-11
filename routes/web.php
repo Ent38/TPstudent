@@ -1,18 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LessonController;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontEnd\AboutUsController;
 use App\Http\Controllers\FrontEnd\ContactUsController;
 use App\Http\Controllers\FrontEnd\WebsiteController;
-
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\NewsController;
-
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +31,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
 // Route::group(['middleware' => ['guest']], function () {
 Route::get('/', [WebsiteController::class, 'website'])->name('website.index');
+Route::get('/Books', [FrontEndBookController::class, 'index'])->name('book.post');
+Route::get('/Books/{Books}/{slug?}', [FrontEndBookController::class, 'single'])->name('Books.single');
+Route::post('/Books/store/{slug?}', [FrontEndBookController::class, 'enroll'])->name('Bookss.enroll');
 
 Route::get('/aboutUs', [AboutUsController::class, 'index'])->name('aboutUs.index');
 Route::get('/aboutUs/{slug}', [AboutUsController::class, 'single'])->name('aboutUs.single');
@@ -45,23 +47,49 @@ Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'single'])->name('news.single');
 
 Route::group(['middleware' => ['auth']], function () {
+
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::resource('roles',   RoleController::class);
+
+
+
+
+    Route::get('/users/delet', [userController::class, 'index'])->name('users.index');
+    /* Route::get('/book', [BookController::class, 'index'])->name('book.post'); */
+
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
 
     Route::resource('lessons', LessonController::class)->except('create');
     Route::get('/lessons/create/{slug}', [LessonController::class, 'create'])->name('lessons.create');
     Route::post('/image-upload', [LessonController::class, 'image-upload'])->name('lessons.image-upload');
 
-
     Route::resource('newses', NewsController::class);
-
+//users
     Route::resource('users', UserController::class)->except('show');
-    Route::get('/users/{slug}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/show', [UserController::class, 'show'])->name('users.show');
+    Route::resource('users', UserController::class)->except('edit');
 
     // Students
+
     Route::resource('/students', StudentController::class)->except('show');
-    Route::get('/students/{slug}', [StudentController::class, 'show'])->name('students.show');
+    Route::get('/students/{slug}', "App\Http\Controllers\StudentController@show")->name('students.show');
+
+
+    //catgegory
+    Route::resource('/categories', CategoryController::class);
+    Route::get('/categories{slug}', [CategoryController::class,'edit'])->name('categories.edit');
+    Route::match(['put', 'patch'], 'categories/{slug}','Categorycontroller@update');
+
+//Books
+    Route::resource('/books', BookController::class);
+    Route::get('/books{slug}', [BookController::class,'edit'])->name('books.edit');
+    Route::get('/books/{slug}', "App\Http\Controllers\BookController@update")->name('books.update');
+
+
+
+
+
 
 
 });

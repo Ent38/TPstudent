@@ -2,32 +2,25 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 trait Slugable
 {
-
     public static function bootSlugable()
     {
-
         // if user is logged in
         if (auth()->check()) {
-
             // Creating Function
             static::creating(function ($model) {
-
                 if (Schema::hasColumn($model->getTable(), 'created_by_id')) {
                     $model->created_by_id = auth()->user()->id;
                 }
 
                 if (Schema::hasColumn($model->getTable(), 'code')) {
-                    $model->code = Str::substr(Str::upper($model->name), 0, 2) . rand(000000, 999999);
+                    $model->code = Str::substr(Str::upper($model->name), 0, 2).rand(000000, 999999);
                 }
 
                 if (Schema::hasColumn($model->getTable(), 'slug')) {
@@ -47,9 +40,8 @@ trait Slugable
             });
         } else {
             static::creating(function ($model) {
-
                 if (Schema::hasColumn($model->getTable(), 'code')) {
-                    $model->code = Str::substr(Str::upper($model->name), 0, 2) . rand(000000, 999999);
+                    $model->code = Str::substr(Str::upper($model->name), 0, 2).rand(000000, 999999);
                 }
 
                 if (Schema::hasColumn($model->getTable(), 'slug')) {
@@ -59,19 +51,16 @@ trait Slugable
                         $model->slug = Str::slug($model->name);
                     }
                 }
-                if (!App::runningInConsole()) {
+                if (! App::runningInConsole()) {
                     $model->assignRole('User');
                 }
             });
         }
     }
 
-
     public function link()
     {
-
         if (Schema::hasColumn($this->getTable(), 'slug')) {
-
             if (request()->routeIs('students.*')) {
                 return Route('students.show', $this->slug);
             } elseif (request()->routeIs('news.*')) {
@@ -81,7 +70,8 @@ trait Slugable
             } elseif (auth()->user()->hasRole('User')) {
                 return Route('students.show', $this->slug);
             }
-            return Route($this->getTable() . '.show', $this->slug);
+
+            return Route($this->getTable().'.show', $this->slug);
         }
     }
 
@@ -95,7 +85,6 @@ trait Slugable
     protected function status(): Attribute
     {
         if (Schema::hasColumn($this->getTable(), 'status')) {
-
             return Attribute::make(
                 get: fn ($value) => ucfirst($value),
                 set: fn ($value) => strtolower($value),
@@ -106,7 +95,7 @@ trait Slugable
     public function image()
     {
         if (Schema::hasColumn($this->getTable(), 'image')) {
-            return asset(!empty($this->image) ? '/josue/assets/' . $this->getTable() . '/images/' . $this->image : \constPath::DefaultImage);
+            return asset(! empty($this->image) ? '/josue/assets/'.$this->getTable().'/images/'.$this->image : \constPath::DefaultImage);
         }
     }
 }

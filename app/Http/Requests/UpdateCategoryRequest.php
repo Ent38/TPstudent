@@ -24,11 +24,10 @@ class UpdateCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'status' => 'required',
-            'parent_id' => 'nullable|integer',
-            'order' => 'nullable',
+            'name' => ['required'],
+            'status' => 'required|string',
             'image' => 'nullable|image',
+            //
         ];
     }
 }

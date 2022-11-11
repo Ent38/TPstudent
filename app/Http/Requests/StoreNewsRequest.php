@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreNewsRequest extends FormRequest
@@ -25,7 +24,7 @@ class StoreNewsRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', Rule::unique('events')->ignore($this->event)],
+            'title' => ['required'],
             'content' => 'required|string',
             'date' => 'required|date',
             'status' => 'required|string',

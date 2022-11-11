@@ -34,7 +34,7 @@
                         <!-- Credit Card -->
                         <div id="pay-invoice">
                             <div class="card-body">
-                                <form action="{{ route('users.update', $user->slug) }}" method="post"
+                                <form action="{{ route('users.update', [ $user->slug]) }}" method="post"
                                     novalidate="novalidate" enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
@@ -132,12 +132,7 @@
                                                     {{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="image" class="control-label mb-1">@lang('Preview image')</label>
-                                                <img src="{{ $user->image() }}" alt="">
-                                            </div>
-                                        </div>
+
                                         <div class="col-6">
                                             <label for="x_card_code" class="control-label mb-1">@lang('Status')</label>
                                             <div class="input-group">

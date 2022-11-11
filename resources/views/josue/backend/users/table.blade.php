@@ -40,8 +40,18 @@
                                     <td>{{ $user->status }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                                            <a href="" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                                            <a href="{{ route('users.edit', [$user->slug]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+
+                                            <form id="deletes-form"
+                                                action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <a class="btn btn-sm btn-danger" href="#"
+                                                    onclick="event.preventDefault();
+                                                    document.getElementById('deletes-form').submit();">
+                                                    <i class="nav-icon fa fa-trash"></i>
+                                                </a>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

@@ -2,24 +2,19 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\{Course, CourseUser};
-use Livewire\Component;
+use App\Models\Book;
+use App\Models\BookUser;
 use Illuminate\Support\Facades\Auth;
-use Jenssegers\Agent\Agent;
-
-
 
 class Payment extends Cart
 {
+    public $Book_id;
 
-    public $course_id;
-    public $course;
+    public $Book;
 
-    public function enrollNow($course_id)
+    public function enrollNow($Book_id)
     {
-        
     }
-
 
     // public function storeEnrollment()
     // {
@@ -27,11 +22,11 @@ class Payment extends Cart
     //         return   $this->dispatchBrowserEvent('loginModal');
     //     }
 
-    //     if (count(CourseUser::where(['course_id' => $this->course_id, 'user_id' => auth()->user()->id])->get()) > 0) {
-    //         return  session()->flash('error', "You have been enrolled to this course" . $this->course->name);
+    //     if (count(BookUser::where(['Book_id' => $this->Book_id, 'user_id' => auth()->user()->id])->get()) > 0) {
+    //         return  session()->flash('error', "You have been enrolled to this Book" . $this->Book->name);
     //     }
-    //     CourseUser::create(['course_id' => $this->course_id, 'user_id' => auth()->user()->id]);
-    //     session()->flash('success', "You have successfully enrolled to this course" . $this->course->name);
+    //     BookUser::create(['Book_id' => $this->Book_id, 'user_id' => auth()->user()->id]);
+    //     session()->flash('success', "You have successfully enrolled to this Book" . $this->Book->name);
     //     $this->dispatchBrowserEvent('closeModal');
     // }
 

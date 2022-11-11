@@ -1,11 +1,8 @@
 <?php
 
-
 namespace App\Traits;
 
-
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
 trait Authorizable
@@ -17,7 +14,7 @@ trait Authorizable
         'update' => 'edit',
         'create' => 'add',
         'store' => 'add',
-        'destroy' => 'delete'
+        'destroy' => 'delete',
     ];
 
     /**
@@ -29,7 +26,7 @@ trait Authorizable
      */
     public function callAction($method, $parameters)
     {
-        if( $ability = $this->getAbility($method) ) {
+        if ($ability = $this->getAbility($method)) {
             $this->authorize($ability);
         }
 
@@ -42,7 +39,7 @@ trait Authorizable
 
         $action = Arr::get($this->getAbilities(), $method);
 
-        return $action ? $action . '_' . $routeName[0] : null;
+        return $action ? $action.'_'.$routeName[0] : null;
     }
 
     private function getAbilities()
