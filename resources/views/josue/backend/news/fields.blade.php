@@ -7,7 +7,7 @@
                     <div id="pay-invoice">
                         <div class="card-body">
                             <form
-                                action="{{ isset($news) ? route('newses.update', $news->slug) : route('newses.store') }}"
+                                action="{{ isset($news) ? route('newses.update') : route('newses.store') }}"
                                 method="post" novalidate="novalidate" enctype="multipart/form-data">
                                 @csrf
                                 @isset($news)

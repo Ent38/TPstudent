@@ -82,8 +82,7 @@
     @include('layouts.frontend.header')
 
     <!--====== HEADER PART ENDS ======-->
-    <!--====== SEARCH BOX PART START ======-->
-    @include('josue.frontend.home.search')
+
 
 
     @yield('content')

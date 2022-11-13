@@ -26,6 +26,7 @@ class UpdateBookRequest extends FormRequest
         return [
             //
             'name' => 'required',
+            'category_id' => 'required|integer',
             'nfc' => 'required',
             'status' => 'required',
             'image' => 'nullable|image',

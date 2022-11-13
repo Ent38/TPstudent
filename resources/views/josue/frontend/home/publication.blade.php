@@ -13,6 +13,8 @@
                 </div> <!-- products btn -->
             </div>
         </div> <!-- row -->
+
+
         <div class="row justify-content-center">
             <div class="col-lg-3 col-md-6 col-sm-8">
                 <div class="singel-publication mt-30">
@@ -33,61 +35,13 @@
                             <span>By Scott Trench</span>
                         </div>
                         <div class="button text-right">
-                            <a href="{{ route('category.index') }}" class="main-btn">Buy Now ($50)</a>
-                        </div>
-                    </div>
-                </div> <!-- singel publication -->
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-8">
-                <div class="singel-publication mt-30">
-                    <div class="image">
-                        <img src="{{ asset('josue/frontend/images/publication/p-2.jpg') }}" alt="Publication">
-                        <div class="add-cart">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-heart-o"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="cont">
-                        <div class="name">
-                            <a href="shop-singel.html">
-                                <h6>A Daughters </h6>
-                            </a>
-                            <span>By Scott Trench</span>
-                        </div>
-                        <div class="button text-right">
-                            <a href="{{ route('category.index') }}" class="main-btn">Buy Now ($30)</a>
+                            <a href="{{ route('bookuser.index') }}" class="main-btn">Buy Now ($50)</a>
                         </div>
                     </div>
                 </div> <!-- singel publication -->
             </div>
 
 
-            <div class="col-lg-3 col-md-6 col-sm-8">
-                <div class="singel-publication mt-30">
-                    <div class="image">
-                        <img src="{{ asset('josue/frontend/images/publication/p-4.jpg') }}" alt="Publication">
-                        <div class="add-cart">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-heart-o"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="cont">
-                        <div class="name">
-                            <a href="shop-singel.html">
-                                <h6>Pices of light</h6>
-                            </a>
-                            <span>By Scott Trench</span>
-                        </div>
-                        <div class="button text-right">
-                            <a href="{{ route('category.index') }}" class="main-btn">Buy Now ($75)</a>
-                        </div>
-                    </div>
-                </div> <!-- singel publication -->
-            </div>
         </div> <!-- row -->
     </div> <!-- container -->
 </section>

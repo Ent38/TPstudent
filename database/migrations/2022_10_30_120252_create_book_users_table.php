@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Book;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,6 +18,7 @@ return new class extends Migration
         Schema::create('book_users', function (Blueprint $table) {
             $table->id();
             $table->Integer('chap_num');
+            $table->enum('status', ['enabled', 'disabled'])->default('enabled');
             $table->timestamps();
         });
     }

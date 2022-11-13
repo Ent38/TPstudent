@@ -47,5 +47,6 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         Gate::authorize('delete_users');
+        
     }
 }

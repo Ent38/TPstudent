@@ -34,7 +34,7 @@
                         <!-- Credit Card -->
                         <div id="pay-invoice">
                             <div class="card-body">
-                                <form action="{{ route('books.update',[$book->slug]) }}" method="post"
+                                <form action="{{ route('books.update',[$book->id]) }}" method="post"
                                     novalidate="novalidate" enctype="multipart/form-data">
                                     @method('PUT')
                                     @csrf
@@ -42,11 +42,11 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="role" class="control-label mb-1">@lang('Role')</label>
-                                                <select name="categories" id="category" class="form-control">
+                                                <label for="category" class="control-label mb-1">@lang('category')</label>
+                                                <select name="category" id="category" class="form-control">
                                                     <option value="">@lang('Select category')</option>
                                                     @foreach ($categories as $category)
-                                                        <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                                        <option value="{{ $id }}">{{ $categories->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

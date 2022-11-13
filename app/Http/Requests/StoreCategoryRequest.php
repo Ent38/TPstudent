@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 class StoreCategoryRequest extends FormRequest
 {
@@ -13,6 +15,7 @@ class StoreCategoryRequest extends FormRequest
      */
     public function authorize()
     {
+        abort_if(Gate::denies('create_category'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return true;
     }
 
@@ -25,8 +28,8 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required',
-            'status' => 'required',
+            'name' =>['required'],
+            'status' =>['required'],
             'image' => 'nullable|image',
         ];
     }

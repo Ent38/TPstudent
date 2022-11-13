@@ -30,9 +30,9 @@
                         <tbody>
                             @foreach ($newses as $news)
                                 <tr>
-                                    <td><img src="{{ $news->image() }}"
+                                    <td><img src="{{ $news->image()}}"
                                             class="news-avatar custom-avatar rounded-circle mr-3" alt=""><a
-                                            href="{{ $news->link() }}"></a>
+                                            href=" "></a>
                                     </td>
                                     <td>{{ $news->title }}</td>
                                     <td>{{ $news->date }}</td>
@@ -40,9 +40,9 @@
                                     <td>{{ $news->is_read == 'no' ? 'Yes' : 'No' }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{ route('newses.edit', [$news->slug]) }}"
+                                            <a href="{{ route('newses.edit', $news->id) }}"
                                                 class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
-                                            <form id="deletes-form"
+                                                <form id="deletes-form"
                                                 action="{{ route('newses.destroy', $news->id) }}" method="POST">
                                                 @csrf
                                                 @method('delete')

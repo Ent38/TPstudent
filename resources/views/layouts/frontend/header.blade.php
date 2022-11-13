@@ -2,27 +2,14 @@
 
     <div class="header-top d-none d-lg-block">
         <div class="container">
-
-
                     <div class="row">
                         <div class="col-lg-4 col-md-4">
                             <div class="logo">
                             </div>
                                 <a href="/">
-                                    <img src="{{ asset('josue/frontend/images/all-icon/map.png') }} " width="80" alt="Logo">
+                                    <img src="{{ asset('josue/frontend/images/all-icon/map.png') }} " width="40" alt="Logo">
                                 </a>
                             </div>
-
-                <div class="col-lg-8">
-                    <div class="header-contact text-lg-left text-center">
-                        <ul>
-                            <li><img src="{{ asset('josue/frontend/images/all-icon/map.png') }}"
-                                    alt="icon"><span>{{ Config::get('settings.address') }}</span></li>
-                            <li><img src="{{ asset('josue/frontend/images/all-icon/email.png') }}"
-                                    alt="icon"><span>{{ Config::get('settings.contact_email') }}</span></li>
-                        </ul>
-                    </div>
-                </div>
             </div> <!-- row -->
         </div> <!-- container -->
     </div> <!-- header top -->
@@ -51,10 +38,7 @@
                                     <a class="{{ is_active('aboutUs.*') }}"
                                         href="{{ route('aboutUs.index') }}">@lang('About us')</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="{{ is_active('contactUs.*') }}"
-                                        href="{{ route('contactUs.index') }}">@lang('Contact')</a>
-                                </li>
+
                             </ul>
                         </div>
                     </nav> <!-- nav -->
@@ -62,9 +46,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-3 col-4">
                     <div class="right-icon text-right">
                         <ul>
-                            <li><a href="#" id="search"><i class="fa fa-search"></i></a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#globalloginModal"><i
-                                        class="fa fa-shopping-bag"></i><span>@livewire('add-to-cart-counter')</span></a></li>
+
                             @auth
                                 <li><a href="{{ route('home') }}"><i class="fa fa-user"></i>
                                         @lang('Account')</a></li>

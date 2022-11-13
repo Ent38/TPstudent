@@ -6,6 +6,7 @@ use App\Http\Requests\StoreLessonRequest;
 use App\Models\Book;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\Support\Facades\Gate;
 use jambasangsang\Flash\Facades\LaravelFlash;
 
@@ -18,8 +19,12 @@ class LessonController extends Controller
      */
     public function index()
     {
-        //
+
+        $categories=Category::get();
+        return view('josue.frontend.lessons.index', ['categories' => $categories]);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -37,14 +42,8 @@ class LessonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLessonRequest $request)
+    public function store(Request $request)
     {
-        $lesson = Lesson::create($request->validated());
-        $lesson->image = uploadOrUpdateFile($request, $lesson->image, \constPath::LessonImage);
-        $lesson->save();
-        LaravelFlash::withSuccess('Lesson Created Successfully');
-
-        return redirect()->route('lesson.show', [$request->slug]);
     }
 
     /**
@@ -55,11 +54,9 @@ class LessonController extends Controller
      */
     public function show($slug)
     {
-        Gate::authorize('view_news');
-        $book = Book::whereSlug($slug)->firstOrFail();
-        $book->update(['is_read' => 'yes']);
 
-        return view('josue.frontend.home.publication', ['book' => $book]);
+        $categories=Category::get();
+        return view('josue.frontend.lessons.index', ['categories' => $categories]);
     }
 
     /**

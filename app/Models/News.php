@@ -6,10 +6,11 @@ use App\Traits\Slugable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Schema;
 
 class News extends Model
 {
-    use HasFactory, Slugable;
+    use HasFactory;
 
     protected $table = 'news';
 
@@ -17,7 +18,6 @@ class News extends Model
         'image',
         'title',
         'content',
-        'slug',
         'date',
         'status',
         'created_by_id',
@@ -33,4 +33,11 @@ class News extends Model
     protected $casts = [
         'date' => 'datetime',
     ];
+
+    public function image()
+    {
+        if (Schema::hasColumn($this->getTable(), 'image')) {
+            return asset(! empty($this->image) ? '/josue/assets/'.$this->getTable().'/images/'.$this->image : \constPath::DefaultImage);
+        }
+    }
 }

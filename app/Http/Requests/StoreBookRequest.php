@@ -27,6 +27,7 @@ class StoreBookRequest extends FormRequest
             //
 
             'name' => 'required',
+            'category_id' => 'required|integer',
             'nfc' => 'required',
             'status' => 'required',
             'image' => 'nullable|image',

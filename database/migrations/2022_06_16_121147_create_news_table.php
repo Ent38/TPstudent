@@ -18,11 +18,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('content');
-            $table->foreignIdFor(User::class, 'created_by_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamp('date')->nullable();
             $table->enum('status', ['enabled', 'disabled'])->default('enabled');
             $table->enum('is_read', ['yes', 'no'])->default('no');
-            $table->string('slug')->unique();
             $table->string('image')->nullable();
             $table->timestamps();
         });

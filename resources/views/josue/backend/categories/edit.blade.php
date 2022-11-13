@@ -28,13 +28,13 @@
             <div class="col-lg-10 m-auto py-2">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Credit Card</strong>
+                        <strong class="card-title">edit category</strong>
                     </div>
                     <div class="card-body">
                         <!-- Credit Card -->
                         <div id="pay-invoice">
                             <div class="card-body">
-                                <form action="{{ route('categories.update',[$category->slug]) }}" method="post"
+                                <form action="{{ route('categories.update',[$category->id]) }}" method="post"
                                     novalidate="novalidate" enctype="multipart/form-data">
                                     @method('PUT')
                                     @csrf

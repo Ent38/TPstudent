@@ -23,6 +23,11 @@ class Permission extends \Spatie\Permission\Models\Permission
             'edit_news',
             'delete_news',
 
+            'view_category',
+            'add_category',
+            'edit_category',
+            'delete_category',
+
             'view_users',
             'add_users',
             'edit_users',

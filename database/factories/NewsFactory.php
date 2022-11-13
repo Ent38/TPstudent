@@ -23,7 +23,6 @@ class NewsFactory extends Factory
             'title' => $this->faker->unique()->jobTitle(),
             'content' => $this->faker->sentence(),
             'date' => $this->faker->date(),
-            'created_by_id' => 1,
 
         ];
     }

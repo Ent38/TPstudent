@@ -2,31 +2,39 @@
 
 namespace App\Models;
 
-use App\Traits\Slugable;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Schema;
 
 class Book extends Model
 {
-    use HasFactory, Slugable;
+    use HasFactory;
+    protected $appends = ['avatar'];
 
     protected $fillable = [
         'image',
         'name',
         'nfc',
-        'slug', ];
+        'category_id',
+         ];
 
-    public function students(): BelongsToMany
+    public function category(): BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(category::class, 'category_id' ,'id');
     }
 
-    public function category():BelongsTo
+    public function user():HasMany{
+
+        return $this->hasMany(User::class);
+    }
+
+    public function image()
     {
-        return $this->belongsTo(Category::class);
+        if (Schema::hasColumn($this->getTable(), 'image')) {
+            return asset(! empty($this->image) ? '/josue/assets/'.$this->getTable().'/images/'.$this->image : \constPath::DefaultImage);
+        }
     }
 }

@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBookUserRequest;
+use App\Models\Book;
 use App\Models\BookUser;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Category;
 
 class BookUserController extends Controller
 {
@@ -15,6 +22,11 @@ class BookUserController extends Controller
     public function index()
     {
         //
+        Gate::authorize('view_bookuser');
+        $categories = Category::all()->sortByDesc("created_at");
+        $books = Book::where('category_id', request('category_id'))->latest()->get();
+
+        return view('josue.frontend.bookuser.index', compact( 'books','categories'));
     }
 
     /**
@@ -25,6 +37,13 @@ class BookUserController extends Controller
     public function create()
     {
         //
+
+        $books = Book::all()->sortByDesc("created_at");
+        $users = User::all()->sortByDesc("created_at");
+        $bookUsers = BookUser::get();
+        $chapter = Book::all()->pluck('nfc');
+
+        return view('josue.frontend.bookuser.create', compact('books', 'chapter', 'bookUsers'));
     }
 
     /**
@@ -33,9 +52,23 @@ class BookUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBookUserRequest $request)
     {
         //
+        Gate::authorize('add_bookuser');
+
+        $user = Auth::user()->id;
+        $bookUsers = BookUser::create([
+            'user_id' => $request['user_id'],
+            'chap_num' => $request['chap_num'],
+            'book_id' => $request['book_id'],
+        ]);
+        // or $request->user()
+        $bookUsers->save();
+        $status = 'chapter number was added successfully.';
+        return redirect()->route('bookuser.index')->with([
+            'status' => $status, ]);
+
     }
 
     /**
@@ -44,9 +77,16 @@ class BookUserController extends Controller
      * @param  \App\Models\BookUser  $bookUser
      * @return \Illuminate\Http\Response
      */
-    public function show(BookUser $bookUser)
+    public function show()
     {
         //
+        Gate::authorize('view_bookuser');
+        $categories = Category::all()->sortByDesc("created_at");
+        $books = Book::where('category_id', request('category_id'))->latest()->get();
+        $bookUser=BookUser::all();
+        $nfc = Book::orderBy('id' , 'desc')->first()->nfc;
+
+        return redirect()->route('josue.frontend.bookuser.show',compact('books','nfc','bookUser'));
     }
 
     /**
@@ -70,6 +110,21 @@ class BookUserController extends Controller
     public function update(Request $request, BookUser $bookUser)
     {
         //
+        Gate::authorize('update_bookuser');
+        $user = Auth::user()->id;
+        $bookUser = BookUser::create([
+            'user_id' => $request['user_id'],
+            'chap_num' => $request['chap_num'],
+            'book_id' => $request['book_id'],
+        ]);
+
+        $bookUser->save();
+
+        $status = 'chapter Updated Successfully';
+
+        return redirect()->route('bookuser.index')->with([
+            'status' => $status,
+        ]);
     }
 
     /**

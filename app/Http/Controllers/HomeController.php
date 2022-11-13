@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Category;
 use App\Models\News;
-use App\Models\User;
+use  App\Models\User;
 
 class HomeController extends Controller
 {
@@ -17,6 +18,7 @@ class HomeController extends Controller
                 'numberOfAdmins' => User::Admin()->count(),
 
                 'books' => Book::get(),
+                'categories' => Category::all(),
 
                 'numberOfStudents' => User::Student()->count(),
                 'numberOfActiveStudents' => User::Student()->where('status', 'Enabled')->count(),

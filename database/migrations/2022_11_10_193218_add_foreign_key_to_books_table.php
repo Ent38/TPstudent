@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             //
-            $table->foreignId('categories_id')
-            ->nullable()
+            $table->foreignId('category_id')
             ->constrained('categories')
             ->onUpdate('cascade')
             ->onDelete('cascade');
-
         });
     }
 
@@ -33,7 +31,7 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             //
-            $table->dropForeign(['categories_id']);
+            $table->dropForeign(['category_id']);
         });
     }
 };

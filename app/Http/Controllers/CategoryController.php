@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Models\Book;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use constPath;
 use Illuminate\Support\Facades\Gate;
-use Jambasangsang\Flash\Facades\LaravelFlash;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -22,7 +21,7 @@ class CategoryController extends Controller
         //
         Gate::authorize('view_category');
 
-        $categories=Category::get();
+        $categories = Category::get();
 
         return view('josue.backend.categories.index', ['categories' => $categories]);
     }
@@ -51,10 +50,10 @@ class CategoryController extends Controller
         //
         Gate::authorize('add_categories');
 
-        $categories = Category::create($request->validated());
-        $categories->image = uploadOrUpdateFile($request, $categories->image, \constPath::CategoryImage);
-        $categories->save();
-        $status= 'category Created Successfully';
+        $category = Category::create($request->validated());
+        $category->image = uploadOrUpdateFile($request, $category->image, constPath::CategoryImage);
+        $category->save();
+        $status = 'category Created Successfully';
 
         return redirect()->route('categories.index')->with([
             'status' => $status,
@@ -69,9 +68,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-
         Gate::authorize('view_category');
-        $categories=Category::all();
+        $categories = Category::all();
+
         return view('josue.backend.categories.show', ['category' => $category], compact('categories'));
     }
 
@@ -81,12 +80,10 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(Category $category)
     {
         //
-        $category=Category::whereSlug($slug)->firstOrFail();
-        return view('josue.backend.categories.edit', ['category' => $category]);
-
+        return view('josue.backend.categories.edit', compact('category') );
     }
 
     /**
@@ -96,19 +93,18 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoryRequest $request,$slug)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
         //
-
+ 
         Gate::authorize('edit_category');
-        $category=Category::whereSlug($slug)->firstOrFail();
 
-        $category->update($request->validated());
-        $category->image = uploadOrUpdateFile($request, $category->image, \constPath::CategoryImage);
+        $category->update($request->all());
+        $category->image = uploadOrUpdateFile($request, $category->image, constPath::CategoryImage);
         $category->save();
-        $status='category Updated Successfully';
+        $status = 'category Updated Successfully';
 
-        return redirect()->route('categories.index', compact('category'))->with([
+        return redirect()->route('categories.index',)->with([
             'status' => $status,
         ]);
     }
@@ -121,13 +117,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $categories = Category::get();
-        $category = Category::FindOrFail($id);
-        $category->delete();
+
+        DB::table('categories')->where('id', $id)->delete();
 
         $status = 'The category was deleted successfully.';
 
-        return redirect()->route('categories.index', ['categories' => $categories])->with([
+        return redirect()->route('categories.index')->with([
             'status' => $status,
         ]);
         //

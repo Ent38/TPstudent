@@ -32,18 +32,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($books as $book)
+                            @foreach ($books as $key=>$book)
                                 <tr>
-                                    <td><img src="{{ $book->avatar }}" alt="" width="60"
-                                            height="60"><a
-                                            href="{{ route('books.show', [$book->slug]) }}">{{ $book->name }}</a>
+                                    <td><img src="{{ $book->image() }}" class="user-avatar rounded-circle mr-3"
+                                        width="50" alt=""height="60"><a
+                                            href="{{ route('books.show',$book->id) }}">{{ $book->name }}</a>
                                     </td>
                                     <td>{{ $book->name }}</td>
 
                                     <td>{{ $book->nfc }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{ route('books.edit',[$book->slug]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ route('books.edit',$book->id) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
 
                                             <form id="deletes-form"
                                                 action="{{ route('books.destroy', $book->id) }}" method="POST">

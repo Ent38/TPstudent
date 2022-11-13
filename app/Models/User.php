@@ -6,9 +6,9 @@ use App\Traits\Slugable;
 use Creativeorange\Gravatar\Facades\Gravatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -19,11 +19,17 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string media_token
  * @property string email
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, HasApiTokens, HasRoles, HasFactory, Slugable;
 
     protected $appends = ['avatar'];
+    protected $dates = [
+        'updated_at',
+        'created_at',
+        'deleted_at',
+        'email_verified_at',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -55,6 +61,10 @@ class User extends Authenticatable
     public function books(): HasMany
     {
         return $this->hasMany(BookUser::class);
+    }
+    public function bookUsers()
+    {
+      return $this->hasMany(BookUser::class);
     }
 
     public function messages(): HasMany

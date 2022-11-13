@@ -17,13 +17,13 @@ return new class extends Migration
             //
             $table->foreignId('user_id')
             ->nullable()
-            ->constrained('user')
+            ->constrained('users')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
             $table->foreignId('book_id')
             ->nullable()
-            ->constrained('book')
+            ->constrained('books')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });

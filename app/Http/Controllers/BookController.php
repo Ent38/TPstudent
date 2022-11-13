@@ -6,9 +6,10 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use constPath;
 use Illuminate\Support\Facades\Gate;
-use Jambasangsang\Flash\Facades\LaravelFlash;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -20,12 +21,12 @@ class BookController extends Controller
     public function index()
     {
         //
-        $books=Book::with('category')->get();
-        $id=Book::all()->pluck('id');
         Gate::authorize('view_books');
-        $books = Book::get();
 
-        return view('josue.backend.books.index', ['books' => $books],compact('id'));
+        $books = Book::all()->sortByDesc("created_at");
+        $categories = Category::all();
+
+        return view('josue.backend.books.index', compact('books','categories'));
     }
 
     /**
@@ -33,15 +34,12 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Book $book)
     {
         //
+        $categories = Category::all();
 
-        $books = Book::all()->pluck('name', 'id');
-        $chapter = Book::all()->pluck('nfc', 'id');
-        $categories=Category::all();
-
-        return view('josue.backend.books.create', compact('books', 'chapter','categories'));
+        return view('josue.backend.books.create', compact('book', 'categories'));
     }
 
     /**
@@ -52,21 +50,22 @@ class BookController extends Controller
      */
     public function store(StoreBookRequest $request)
     {
-        $books = Book::create($request->validated());
-        $books->image = uploadOrUpdateFile($request, $books->image, \constPath::UserImage);
-        $category_id=Category::all()->pluck('id');
-        // Book::create([
-        //     'name' => $request->input('name'),
-        //     'nfc' => $request->input('nfc'),
-        //     'category_id' => $request->input('category_id'),
-        //  ]);
-        $books->save();
+
+        $book = Book::create(
+        ['name' =>$request['required'],
+        'category_id' => $request['required|integer'],
+        'nfc' => $request['required'],
+        'status' => $request['required'],
+        'image' => $request['nullable|image'],]);
+
+        $book->image = uploadOrUpdateFile($request, $book->image, constPath::BookImage);
+
+        $book->save();
         $status = 'A new book was added successfully.';
 
-        return redirect()->route('books.index',compact('category_id'))->with([
+        return redirect()->route('books.index')->with([
             'status' => $status, ]);
     }
-
     /**
      * Display the specified resource.
      *
@@ -76,10 +75,10 @@ class BookController extends Controller
     public function show(Book $book)
     {
         //
-
         Gate::authorize('view_book');
+        $book->load('category');
 
-        return view('josue.backend.books.show', ['book' => Book::with('books', 'books.book')->whereSlug($book)->first()]);
+        return view('josue.backend.books.show',compact('book'));
     }
 
     /**
@@ -88,15 +87,11 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(Book $book)
     {
-        $book=Book::whereSlug($slug)->firstOrFail();
-        $categories=Category::all();
-
-        return view('josue.backend.books.edit', ['book' => $book], compact('categories'));
-
+        $categories = Category::all();
+        return view('josue.backend.books.edit', compact('book', 'categories'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -105,15 +100,15 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBookRequest $request, $slug)
+    public function update(UpdateBookRequest $request,Book $book)
     {
         //
         Gate::authorize('edit_book');
-        $book=Book::whereSlug($slug)->firstOrFail();
-        $book->update($request->validated());
-        $book->image = uploadOrUpdateFile($request, $book->image, \constPath::BookImage);
+
+        $book->update($request->all());
+        $book->image = uploadOrUpdateFile($request, $book->image, constPath::BookImage);
         $book->save();
-        $status='Book Updated Successfully';
+        $status = 'Book Updated Successfully';
 
         return redirect()->route('books.index')->with([
             'status' => $status,
@@ -128,13 +123,12 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        $books = Book::get();
-        $book = Book::FindOrFail($id);
-        $book->delete();
+
+        DB::table('books')->where('id', $id)->delete();
 
         $status = 'The book was deleted successfully.';
 
-        return redirect()->route('books.index', ['books' => $books])->with([
+        return redirect()->route('books.index')->with([
             'status' => $status,
         ]);
     }

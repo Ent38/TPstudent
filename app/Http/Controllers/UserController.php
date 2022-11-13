@@ -6,9 +6,10 @@ use App\Http\Requests\StoreUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use constPath;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -63,6 +64,7 @@ class UserController extends Controller
     public function show($slug)
     {
         Gate::authorize('view_users');
+
         return view('josue.backend.students.show', ['student' => User::with('books', 'books.book')->whereSlug($slug)->first()]);
     }
 
@@ -75,11 +77,10 @@ class UserController extends Controller
     public function edit($slug)
     {
         $roles = Role::where('name', '!=', 'User')->get('name', 'id');
-        $user=User::whereSlug($slug)->firstOrFail();
+        $user = User::whereSlug($slug)->firstOrFail();
 
-         return view('josue.backend.users.edit',compact('roles','user', 'slug'));
+        return view('josue.backend.users.edit', compact('roles', 'user', 'slug'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -114,13 +115,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-        $users = User::get();
-        $user = User::FindOrFail($id);
-        $user->delete();
+        DB::table('users')->where('id', $id)->delete();
 
         $status = 'The user was deleted successfully.';
 
-        return redirect()->route('users.index', ['users' => $users])->with([
+        return redirect()->route('users.index')->with([
             'status' => $status,
         ]);
     }

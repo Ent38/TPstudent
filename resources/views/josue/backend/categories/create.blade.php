@@ -28,7 +28,7 @@
             <div class="col-lg-10 m-auto py-2">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">Credit Card</strong>
+                        <strong class="card-title">Creating category</strong>
                     </div>
                     <div class="card-body">
                         <!-- Credit Card -->
@@ -36,7 +36,7 @@
                             <div class="card-body">
                                 <form action="{{ route('categories.store') }}" method="post" novalidate="novalidate"
                                     enctype="multipart/form-data">
-                               
+
                                     @csrf
                                     <div class="row">
 

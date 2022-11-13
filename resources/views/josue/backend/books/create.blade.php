@@ -34,19 +34,18 @@
                         <!-- Credit Card -->
                         <div id="pay-invoice">
                             <div class="card-body">
-                                <form action="{{ route('books.store') }}" method="post" novalidate="novalidate"
+                                <form action="{{ route('books.store')}}" method="post" novalidate="novalidate"
                                     enctype="multipart/form-data">
-
                                     @csrf
                                     <div class="row">
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="role" class="control-label mb-1">@lang('Role')</label>
-                                                <select name="role" id="role" class="form-control">
-                                                    <option value="">@lang('Select Role')</option>
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                                <label for="category" class="control-label mb-1">@lang('category')</label>
+                                                <select name="category" id="category_id" class="form-control">
+                                                    <option value="">@lang('Select category')</option>
+                                                    @foreach ($categories as $id => $categories)
+                                                        <option value="{{ $id }}">{{ $categories->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

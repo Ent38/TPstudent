@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Models\News;
+use constPath;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -34,7 +35,7 @@ class NewsController extends Controller
         Gate::authorize('add_news');
 
         $news = News::create($request->validated());
-        $news->image = uploadOrUpdateFile($request, $news->image, \constPath::NewsImage);
+        $news->image = uploadOrUpdateFile($request, $news->image, constPath::NewsImage);
         $news->save();
         $status = 'News Created Successfully';
 
@@ -42,32 +43,29 @@ class NewsController extends Controller
             'status' => $status, ]);
     }
 
-    public function show($slug)
+    public function show(News $news)
     {
         Gate::authorize('view_news');
-        $news = News::whereSlug($slug)->firstOrFail();
+        $newses=News::all();
         $news->update(['is_read' => 'yes']);
 
-        return view('josue.backend.news.show', ['news' => $news]);
+        return view('josue.backend.news.show', compact('news', 'newses'));
     }
 
-    public function edit($slug)
+    public function edit(News $news)
     {
         Gate::authorize('edit_news');
 
-        $news = News::whereSlug($slug)->firstOrFail();
 
         return view('josue.backend.news.edit', compact('news'));
     }
 
-    public function update(UpdateNewsRequest $request, $slug)
+    public function update(UpdateNewsRequest $request, News $news)
     {
-        $news = News::whereSlug($slug)->firstOrFail();
-
         $news->update($request->validated());
-        $news->image = uploadOrUpdateFile($request, $news->image, \constPath::NewsImage);
+        $news->image = uploadOrUpdateFile($request, $news->image, constPath::NewsImage);
         $news->save();
-        $status='News Updated Successfully';
+        $status = 'News Updated Successfully';
 
         return redirect()->route('newses.index')->with([
             'status' => $status, ]);
@@ -77,19 +75,18 @@ class NewsController extends Controller
     {
         Gate::authorize('delete_news');
 
-        $newses = News::all();
-        $news = News::FindOrFail($id);
-        $news->delete();
+        DB::table('news')->where('id', $id)->delete();
+        
         $status = 'The news was deleted successfully.';
 
-        return redirect()->route('newses.index', ['newses' => $newses])->with([
+        return redirect()->route('newses.index')->with([
             'status' => $status,
         ]);
     }
 
-    public function single($slug)
+    public function single(News $news)
     {
-        $news = News::whereSlug($slug)->firstOrFail();
+
         $news->update(['is_read' => 'yes']);
 
         return view('josue.frontend.news.single', ['news' => $news]);

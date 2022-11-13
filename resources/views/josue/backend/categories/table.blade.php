@@ -32,15 +32,15 @@
                         <tbody>
                             @foreach ($categories as $category)
                                 <tr>
-                                    <td><img src="{{ $category->avatar }}" alt="" width="60"
+                                    <td><img src="{{ $category->image() }}" alt="" width="60"
                                             height="60"><a
-                                            href="{{ route('categories.show', [$category->slug]) }}">{{ $category->name }}</a>
+                                            href="{{ route('categories.show', [$category->id]) }}">{{ $category->name }}</a>
                                     </td>
                                     <td>{{ $category->name }}</td>
 
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{ route('categories.edit',[$category->slug]) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+                                            <a href="{{ route('categories.edit',$category->id) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
 
                                             <form id="deletes-form"
                                                 action="{{ route('categories.destroy', $category->id) }}" method="POST">

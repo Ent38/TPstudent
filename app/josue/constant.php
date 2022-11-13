@@ -103,7 +103,7 @@ class constPath
 {
     const BookImage = '/josue/assets/books/images/';
 
-    const CategoryImage = '/josue/assets/books/images/';
+    const CategoryImage = '/josue/assets/categories/images/';
 
     const UserImage = '/josue/assets/users/images/';
 
